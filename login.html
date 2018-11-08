@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+  <body>
+    用户：<input type="text" id="name" value=""><br>
+    密码：<input type="text" id="password" value=""><br>
+    <button id="register" onclick="re_click()">注册</button>
+    <button id="log" onclick="log_click()">登录</button>
+  </body>
+  <script type="text/javascript">
+  function log_click()
+  {
+    var na=document.getElementById("name").value;
+    var pa=document.getElementById("password").value;
+    console.log("2");
+    $.ajax(
+      {
+      url:"/user",
+        type: 'get',
+      data:{act:"login",name:na,password:pa},
+      success:function(data)
+      {
+        data=JSON.parse(data)
+        console.log(data)
+        if(data.ok=="true")
+        {
+            $(window).attr('location','1.html');
+            console.log("登陆成功")
+        }
+        else
+        {
+          alert("登录失败："+data.msg)
+        }
+      },
+      error:function()
+      {
+        alert("通信失败")
+      }
+    })
+  }
+    function re_click()
+    {
+      var na=document.getElementById("name").value;
+      var pa=document.getElementById("password").value;
+      console.log("1");
+      $.ajax(
+        {
+        url:"/user",
+          type: 'get',
+        data:{act:"reg",name:na,password:pa},
+        success:function(data)
+        {
+          data=JSON.parse(data)
+          console.log(data)
+          if(data.ok=="true")
+          {
+              alert("注册成功")
+          }
+          else
+          {
+            alert("注册失败："+data.msg)
+          }
+        },
+        error:function()
+        {
+          alert("通信失败")
+        }
+      })
+    }
+
+  </script>
+</html>
